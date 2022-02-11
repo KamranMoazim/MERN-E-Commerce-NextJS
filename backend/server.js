@@ -10,6 +10,8 @@ const cookieParser = require("cookie-parser");
 const testingRoutes = require("./Routes/testingRoutes");
 const authRoutes = require("./Routes/authRoutes");
 const userRoutes = require("./Routes/userRoutes");
+const categoryRotues = require("./Routes/categoryRotues");
+const productRoutes = require("./Routes/productRoutes");
 
 // app
 const app = express();
@@ -23,6 +25,8 @@ app.use(cookieParser());
 app.use("/api", testingRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", categoryRotues);
+app.use("/api", productRoutes);
 
 // database connect
 mongoose.connect(process.env.DATABASE, {
