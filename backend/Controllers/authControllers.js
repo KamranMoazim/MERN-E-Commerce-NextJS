@@ -96,13 +96,15 @@ exports.isAdmin = (req, res, next) => {
 
     let user = req.profile && req.auth;
 
+    // console.log(user)
+
     if (!user) {
         return res.status(403).json({
             error:"Access Denied!"
         })
     }
-    if (user.role === 1) {
-        return res.status(400).json({
+    if (user.role == 0) {
+        return res.status(403).json({
             error:"Admin Resource, Access Denied!"
         })
     }
