@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 
 // other Routes
 const testingRoutes = require("./Routes/testingRoutes");
+const authRoutes = require("./Routes/authRoutes");
 const userRoutes = require("./Routes/userRoutes");
 
 // app
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 // routes middleware
 app.use("/api", testingRoutes);
+app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 
 // database connect
