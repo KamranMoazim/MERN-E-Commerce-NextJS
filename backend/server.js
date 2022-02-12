@@ -4,7 +4,7 @@ require("dotenv").config();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-// const cors = require("cors");
+const cors = require("cors");
 
 // other Routes
 const testingRoutes = require("./Routes/testingRoutes");
@@ -20,6 +20,7 @@ const app = express();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors());
 
 // routes middleware
 app.use("/api", testingRoutes);
