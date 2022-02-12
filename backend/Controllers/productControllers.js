@@ -42,17 +42,6 @@ exports.productById = (req, res, next, id) => {
         })
 }
 
-exports.list = (req, res) => {
-
-    Product.find({}).exec((err, data)=>{
-        if (err) {
-            return res.status(400).json({
-                error:errorHandler(err)
-            }) 
-        }
-        res.json(data)
-    })
-}
 
 exports.read = (req, res) => {
 
@@ -96,4 +85,111 @@ exports.update = (req, res) => {
             message:"Product Updated Successfully!"
         })
     })
+}
+
+
+
+/**
+ * sell / arrival
+ * by sell = /products?sortBy=sold&order=desc&limit=4
+ * by sell = /products?sortBy=createdAt&order=asc&limit=10
+ * if no params are sent then all products are returned
+ */
+
+ exports.list = (req, res) => {
+
+    let order = req.query.order ? req.query.order : "asc";
+    let sortBy = req.query.sortBy ? req.query.sortBy : "sold";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 10
+
+    Product.find()
+        .select("-photoPath")
+        .populate("category")
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .exec((err, products)=>{
+            if (err) {
+                return res.status(400).json({
+                    error:errorHandler(err)
+                }) 
+            }
+            res.json(products)
+        })
+}
+
+
+/**
+ * it will find the product based on the req product category
+ * other products that has the same category
+ */
+
+exports.listRelated = (req, res) => {
+
+    let limit = req.query.limit ? parseInt(req.query.limit) : 10
+
+    Product.find({_id: {$ne:req.product}, category:req.product.category})
+        .populate("category", "_id name")
+        .limit(limit)
+        .exec((err, products)=>{
+            if (err) {
+                return res.status(400).json({
+                    error:errorHandler(err)
+                }) 
+            }
+            res.json(products)
+        })
+}
+
+
+exports.listCategories = (req, res) => {
+
+    Product.distinct("category", {}, (err, categories)=>{
+        if (err) {
+            return res.status(400).json({
+                error:errorHandler(err)
+            }) 
+        }
+        res.json(categories)
+    })
+}
+
+/**
+ * lists products by search
+ */
+
+exports.listBySearch = (req, res) => {
+
+    let order = req.query.order ? req.query.order : "asc";
+    let sortBy = req.query.sortBy ? req.query.sortBy : "sold";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 10
+    let skip = parseInt(req.query.skip)
+    let findArgs = { }
+
+    for (let key in req.body.filters) {
+        if (req.body.filters[key].length>0) {
+            if (key === "price") {
+                findArgs[key] = {
+                    $gte: req.body.filters[key][0],
+                    $lte: req.body.filters[key][1]
+                }
+            } else {
+                findArgs[key] = req.body.filters[key]
+            }
+            
+        }
+    }
+
+    Product.find(findArgs)
+        .select("-photoPath")
+        .populate("category")
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .exec((err, products)=>{
+            if (err) {
+                return res.status(400).json({
+                    error:errorHandler(err)
+                }) 
+            }
+            res.json(products)
+        })
 }

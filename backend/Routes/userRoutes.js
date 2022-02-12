@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {requireSignin, isAuth, isAdmin} = require("../Controllers/authControllers");
-const {findById} = require("../Controllers/userControllers");
+const {findById, read, update} = require("../Controllers/userControllers");
 
 
 // routes
@@ -11,6 +11,9 @@ router.get("/secret/:userId", requireSignin, isAdmin, (req, res)=>{
         user:req.profile
     })
 })
+
+router.get("/user/:userId", requireSignin, isAuth, read)
+router.put("/user/:userId", requireSignin, isAuth, update)
 
 router.param("userId", findById)
 
