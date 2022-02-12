@@ -23,7 +23,8 @@ exports.signup = (req, res) => {
         user.salt=undefined
         user.hashed_password=undefined
         res.json({
-            user
+            user,
+            message:"Signup Successfully!"
         })
     })
 }
@@ -57,9 +58,11 @@ exports.signin = (req, res) => {
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn:"1d"})
         res.cookie("token", token, {expiresIn:"1d"});
         const {_id, name, email, role} = user;
+        // console.log(token)
         return res.json({
             token,
-            user: {_id, name, email, role}
+            user: {_id, name, email, role},
+            message:"Signin Successfully!"
         });
     })
 }
