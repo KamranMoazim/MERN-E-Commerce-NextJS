@@ -40,3 +40,27 @@ export const getProducts = (sortBy) => {
             console.log(err);
         })
 }
+
+
+export const getFilteredProducts = (skip=0, limit=10, filters={}) => { //  sortBy="sold", order="asc",
+    // console.log(filters)
+    let data = {
+        limit,
+        skip,
+        filters
+    }
+    return fetch(`${API}/products/by/search`, {  // ?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${skip}
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "content-type":"application/json",
+        },
+        body:JSON.stringify(data)
+    })
+        .then((res)=>{
+            return res.json();
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}

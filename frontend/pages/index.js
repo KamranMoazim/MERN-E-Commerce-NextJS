@@ -40,8 +40,11 @@ export default function Home() {
     loadProductsByArrival()
   },[])
 
+  const showError = () => (error ? <div className='alert alert-danger'> {error} </div> : "")
+
   return (
     <Layout title='Home Page' description='A FullStack E-Commerce App' className='container-fluid'>
+      {showError()}
       <h2 className='mb-4'>
         Best Sellers
       </h2>

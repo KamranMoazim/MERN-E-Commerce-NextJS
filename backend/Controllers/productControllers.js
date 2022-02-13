@@ -158,11 +158,12 @@ exports.listCategories = (req, res) => {
  */
 
 exports.listBySearch = (req, res) => {
-
+    // console.log(req.query)
+    // console.log(req.body)
     let order = req.query.order ? req.query.order : "asc";
     let sortBy = req.query.sortBy ? req.query.sortBy : "sold";
-    let limit = req.query.limit ? parseInt(req.query.limit) : 10
-    let skip = parseInt(req.query.skip)
+    let limit = req.body.limit ? parseInt(req.body.limit) : 10
+    let skip = parseInt(req.body.skip)
     let findArgs = { }
 
     for (let key in req.body.filters) {
@@ -180,9 +181,10 @@ exports.listBySearch = (req, res) => {
     }
 
     Product.find(findArgs)
-        .select("-photoPath")
+        // .select("-photoPath")
         .populate("category")
         .sort([[sortBy, order]])
+        .skip(skip)
         .limit(limit)
         .exec((err, products)=>{
             if (err) {
@@ -190,6 +192,9 @@ exports.listBySearch = (req, res) => {
                     error:errorHandler(err)
                 }) 
             }
-            res.json(products)
+            res.json({
+                products,
+                size:products.length
+            })
         })
 }

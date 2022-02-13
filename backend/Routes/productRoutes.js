@@ -17,7 +17,7 @@ router.put("/product/:productById/:userId", productValidator, requireSignin, isA
 router.get("/products", list);
 router.get("/products/related/:productById", listRelated);
 router.get("/products/categories", listCategories);
-router.post("/products/bysearch", listBySearch);
+router.post("/products/by/search", listBySearch);
 router.get("/product/:productById", read);
 router.delete("/product/:productById/:userId", requireSignin, isAdmin, remove);
 
