@@ -26,8 +26,11 @@ function Header({router}) {
 
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <a className="nav-link" style={isActive("/shop")} href="/shop"> Shop </a>
+                    </li>
                     {isAuth() && (<><li className="nav-item">
-                        <a className="nav-link" style={isActive("/dashboard")} href="/dashboard"> Dashboard <span className="sr-only">(current)</span></a>
+                        <a className="nav-link" style={isActive("/dashboard")} href="/dashboard"> Dashboard </a>
                     </li>
                     <li className="nav-item">
                             <a className="nav-link" href="/signin" onClick={()=>signout(()=>Router.push("/signin"))} > Signout </a>
@@ -35,7 +38,7 @@ function Header({router}) {
                     </>)}
                     { !isAuth() &&
                     (<><li className="nav-item">
-                        <a className="nav-link" style={isActive("/signin")} href="/signin"> Signin <span className="sr-only">(current)</span></a>
+                        <a className="nav-link" style={isActive("/signin")} href="/signin"> Signin </a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" style={isActive("/signup")} href="/signup"> Signup</a>
