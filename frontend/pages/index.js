@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react'
 import Layout from '../components/Layout'
 import {getProducts} from "../Actions/productActions"
 import Card from '../components/Products/Card'
+import SearchBar from '../components/cors/SearchBar'
 
 
 export default function Home() {
@@ -32,8 +33,6 @@ export default function Home() {
       })
   }
 
-  console.log(productsByArrival)
-  console.log(productsBySell)
 
   useEffect(()=>{
     loadProductsBySell()
@@ -43,8 +42,10 @@ export default function Home() {
   const showError = () => (error ? <div className='alert alert-danger'> {error} </div> : "")
 
   return (
-    <Layout title='Home Page' description='A FullStack E-Commerce App' className='container-fluid'>
+    <Layout title='Home Page' description='A FullStack E-Commerce App' className='container'>
       {showError()}
+      {SearchBar()}
+      <hr/>
       <h2 className='mb-4'>
         Best Sellers
       </h2>
@@ -53,7 +54,7 @@ export default function Home() {
           return <Card product={prod} key={ind} />
         })}
       </div>
-
+      <hr/>
       <h2 className='mb-4'>
         New Arrivals
       </h2>
