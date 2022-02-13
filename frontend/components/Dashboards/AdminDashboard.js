@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from '../Layout'
+import {isAuth} from "../../Actions/authActions"
 
 function AdminDashboard() {
     const {role, name, email, _id} = isAuth()
@@ -10,14 +11,14 @@ function AdminDashboard() {
             <h3 className='card-header'>Admin Links</h3>
             <ul className='list-group'>
                 <li className='list-group-item'>
-                    <Link className="nav-link" to="/category/create">
+                    <a className="nav-link" href="/category/create">
                         Create Category
-                    </Link>
+                    </a>
                 </li>
                 <li className='list-group-item'>
-                    <Link className="nav-link" to="/product/create">
+                    <a className="nav-link" href="/product/create">
                         Create Product
-                    </Link>
+                    </a>
                 </li>
             </ul>
         </div>

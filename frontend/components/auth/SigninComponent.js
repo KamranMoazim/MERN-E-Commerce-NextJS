@@ -86,7 +86,6 @@ return (
           {showMessage()}
           {showForm && signupForm()}
           {showButton()}
-          {JSON.stringify(values)}
   </Layout>
 )
 }

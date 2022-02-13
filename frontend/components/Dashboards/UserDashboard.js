@@ -14,14 +14,14 @@ function UserDashboard() {
             <h3 className='card-header'>User Links</h3>
             <ul className='list-group'>
                 <li className='list-group-item'>
-                    <Link className="nav-link" to="/cart">
+                    <a className="nav-link" to="/cart">
                         Cart
-                    </Link>
+                    </a>
                 </li>
                 <li className='list-group-item'>
-                    <Link className="nav-link" to={`/profile/${_id}`}>
+                    <a className="nav-link" href={`/profile/${_id?_id:""}`}>
                         Update Profile
-                    </Link>
+                    </a>
                 </li>
             </ul>
         </div>

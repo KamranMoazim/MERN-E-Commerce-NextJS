@@ -14,7 +14,7 @@ exports.create = (req, res) => {
     }
 
     // const {name} = req.body;
-    console.log(req.body)
+    // console.log(req.body)
     let product = new Product(req.body);
     product.save((err, data)=>{
         if (err) {
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
                 error:errorHandler(err)
             }) 
         }
-        res.json({data})
+        res.json({data, message:"Product Created Successfully!"})
     })
 }
 
@@ -103,7 +103,7 @@ exports.update = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 10
 
     Product.find()
-        .select("-photoPath")
+        // .select("-photoPath")
         .populate("category")
         .sort([[sortBy, order]])
         .limit(limit)
