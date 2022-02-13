@@ -102,7 +102,7 @@ exports.update = (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : "sold";
     let limit = req.query.limit ? parseInt(req.query.limit) : 10
 
-    Product.find()
+    Product.find({})
         // .select("-photoPath")
         .populate("category")
         .sort([[sortBy, order]])
@@ -113,8 +113,35 @@ exports.update = (req, res) => {
                     error:errorHandler(err)
                 }) 
             }
+            // console.log(products)
             res.json(products)
         })
+}
+
+
+exports.listSearch = (req, res) => {
+
+    const query = {}
+
+    if (req.query.search) {  // name:req.query.search, category:req.query.category
+        query.name = {$regex:req.query.search ,$options:"i"}
+        if (req.query.category && req.query.category != "All") {
+            query.category = req.query.category
+        }
+    }
+
+    Product.find(query)
+        .populate("category")
+        .exec((err, products)=>{
+            if (err) {
+                return res.status(400).json({
+                    error:errorHandler(err)
+                }) 
+            }
+            // console.log(products)
+            res.json(products)
+        })
+
 }
 
 
