@@ -36,7 +36,6 @@ exports.productById = (req, res, next, id) => {
                     error:"Product not Found!"
                 })
             }
-            // console.log(user)
             req.product = product
             next();
         })
@@ -152,7 +151,7 @@ exports.listSearch = (req, res) => {
 
 exports.listRelated = (req, res) => {
 
-    let limit = req.query.limit ? parseInt(req.query.limit) : 10
+    let limit = req.query.limit ? parseInt(req.query.limit) : 5
 
     Product.find({_id: {$ne:req.product}, category:req.product.category})
         .populate("category", "_id name")

@@ -3,10 +3,10 @@ import Link from 'next/link'
 import ShowImage from './ShowImage'
 
 
-function Card({product}) {
+function Card({product, className=""}) {
 
   return (
-    <div className='col-4 mb-3'>
+    <div className={className?className:'col-4 mb-3'}>
         <div className='card'>
             <div className='card-header'>
                 {product.name}
@@ -19,7 +19,7 @@ function Card({product}) {
                 <p>
                     ${product.price}
                 </p>
-                <a href="/">
+                <a href={`/product/${product._id}`}>
                     <button className='btn btn-outline-primary mt-2 mb-2'>
                         View Product
                     </button>
