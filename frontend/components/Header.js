@@ -3,6 +3,7 @@ import Router, {withRouter} from "next/router"
 import {APP_NAME} from "../config"
 
 import {signout, isAuth} from "../Actions/authActions"
+import {itemTotal} from "../Actions/cartActions"
 
 function Header({router}) {
 
@@ -28,6 +29,9 @@ function Header({router}) {
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
                         <a className="nav-link" style={isActive("/shop")} href="/shop"> Shop </a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" style={isActive("/cart")} href="/cart"> Cart <sup><small className='cart-badge'>{itemTotal()}</small></sup> </a>
                     </li>
                     {isAuth() && (<><li className="nav-item">
                         <a className="nav-link" style={isActive("/dashboard")} href="/dashboard"> Dashboard </a>
