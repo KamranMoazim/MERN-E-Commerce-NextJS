@@ -70,13 +70,49 @@ export const getFilteredProducts = (skip=0, limit=10, filters={}) => { //  sortB
 export const getSearchedProducts = (params) => {
 
     const query = queryString.stringify(params)
-    console.log(query)
+    // console.log(query)
     return fetch(`${API}/products/search/?${query}`, {
         method:"GET",
         headers:{
             Accept:"application/json",
             "content-type":"application/json",
         }
+    })
+        .then((res)=>{
+            return res.json();
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
+
+
+export const getSingleProduct = (id) => {
+
+    return fetch(`${API}/product/${id}`, {
+        method:"GET",
+        headers:{
+            Accept:"application/json",
+            "content-type":"application/json",
+        }
+    })
+        .then((res)=>{
+            return res.json();
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
+
+export const getRelatedProducts = (product) => {
+    console.log(product)
+    return fetch(`${API}/products/related/${product._id}`, {
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "content-type":"application/json",
+        },
+        body: JSON.stringify(product)
     })
         .then((res)=>{
             return res.json();
