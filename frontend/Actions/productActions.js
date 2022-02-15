@@ -5,6 +5,46 @@ import Router from "next/router"
 import queryString from "query-string"
 
 
+export const getProcessPayment = (userId, token, paymentData) => {
+
+    return fetch(`${API}/braintree/payment/${userId}`, {
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            "content-type":"application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body:JSON.stringify(paymentData)
+    })
+        .then((res)=>{
+            return res.json();
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
+
+
+
+export const getBrainTreeClientToken = (userId, token) => {
+// console.log(token)
+    return fetch(`${API}/braintree/getToken/${userId}`, {
+        method:"GET",
+        headers:{
+            Accept:"application/json",
+            "content-type":"application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then((res)=>{
+            return res.json();
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
+
+
 export const createProduct = (product, userId, token) => {
     // console.log(product)
     return fetch(`${API}/product/create/${userId}`, {

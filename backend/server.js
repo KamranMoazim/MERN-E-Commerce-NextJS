@@ -12,6 +12,7 @@ const authRoutes = require("./Routes/authRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const categoryRotues = require("./Routes/categoryRotues");
 const productRoutes = require("./Routes/productRoutes");
+const braintreeRoutes = require("./Routes/braintreeRoutes");
 
 // app
 const app = express();
@@ -28,6 +29,7 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRotues);
 app.use("/api", productRoutes);
+app.use("/api", braintreeRoutes);
 
 // database connect
 mongoose.connect(process.env.DATABASE, {
