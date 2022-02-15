@@ -1,8 +1,9 @@
 const User = require("../Models/authModel")
-
+const {Order} = require("../Models/cartItemModels")
 
 
 exports.findById = (req, res, next, id) => {
+    console.log("called id =====> ", id)
     User.findById(id)
         .exec((err, user)=>{
             if(err || !user){
@@ -41,15 +42,17 @@ exports.addOrderToUserHistory = (req, res, next) => {
     })
 }
 
-exports.read = (req, res, id) => {
+exports.read = (req, res) => {
     req.profile.hashed_password = undefined;
     req.profile.salt = undefined;
     return res.json(req.profile)
 }
 
 
-exports.update = (req, res, id) => {
-    User.findOne({_id:req.profile._id}, {$set:req.body}, {new:true}, (err, user)=>{
+exports.update = (req, res) => {
+    // console.log(req)
+    console.log(req.auth._id)
+    User.findOneAndUpdate({_id:req.auth._id}, {$set:req.body}, {new:true}, (err, user)=>{
         if(err){
             return res.status(400).json({
                 error:"You are not Authorized to perform this Action!"
@@ -59,4 +62,19 @@ exports.update = (req, res, id) => {
         user.salt = undefined;
         return res.json(user)
     })
+}
+
+
+exports.getHistory = (req, res) => {
+    Order.find({user:req.auth._id})
+        .populate("user", "_id name")
+        .sort("-created")
+        .exec((err, orders)=>{
+            if (err) {
+                return res.status(400).json({
+                    error:errorHandler(err)
+                }) 
+            }
+            res.json(orders)
+        })
 }

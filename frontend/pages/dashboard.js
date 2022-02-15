@@ -13,7 +13,7 @@ function dashboard() {
         ((!isAuth()) && Router.push("/"))
     },[])
 
-    console.log(isAuth())
+    // console.log(isAuth())
 
   return (
     <>

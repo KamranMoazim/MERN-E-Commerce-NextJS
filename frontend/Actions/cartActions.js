@@ -3,7 +3,7 @@
 
 // following are local functions
 export const addItemToCart = (item) => {
-    console.log(item)
+    // console.log(item)
     let cart = []
     if (process.browser) {
         if (localStorage.getItem("cart")) {
@@ -53,7 +53,7 @@ export const updateItem = (id, count) => {
 }
 
 export const removeItem = (id) => {
-    console.log(id)
+    // console.log(id)
     let cart = []
     if (process.browser) {
         if (localStorage.getItem("cart")) {
