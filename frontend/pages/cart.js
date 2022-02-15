@@ -10,7 +10,7 @@ function cart() {
 
     useEffect(()=>{
         setItems(getCart())
-    },[items])
+    },[])
 
     const showItems = () => {
         return (
@@ -19,10 +19,10 @@ function cart() {
                 <hr/>
                 {items.map((item,ind)=>{
                     return <Card key={ind} product={item} 
-                    showAddToCart={false} 
-                    className="col-12"
-                    cartUpdate={true}
-                    removeProductFromCart={true} />
+                        showAddToCart={false} 
+                        className="col-12"
+                        cartUpdate={true}
+                        removeProductFromCart={true} />
                 })}
             </div>
         )
@@ -30,7 +30,7 @@ function cart() {
 
     const noItems = () => {
         return (
-            <h2>Your Cart is Empty! <a href='/shop' className='btn btn-outline-success'>Continue Shopping!</a> </h2>
+            <h2>Your Cart is Empty! <a href='/' className='btn btn-outline-success'>Continue Shopping!</a> </h2>
         )
     }
 

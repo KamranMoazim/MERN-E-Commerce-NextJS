@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {withRouter} from "next/router"
 import {getSingleProduct, getRelatedProducts} from "../../Actions/productActions"
+import {addItemToCart} from "../../Actions/cartActions"
 import Layout from "../../components/Layout"
 import moment from "moment"
 import ShowImage from '../../components/Products/ShowImage'
@@ -38,9 +39,13 @@ function ProductDetails({data}) {
             })
     }
 
+    const confirmedAddToCart = (product) => {
+        addItemToCart(product)
+    }
+
   return (
-    <Layout title={data && data.name} description={data && data.description.substring(0, 100)} className='container-fluid'>
-        <div>
+    <Layout title={data && data.name} description={data && data.description.substring(0, 100)}  className='container-fluid'>
+        <div className='row'>
             {showError()}
             <div className='col-8 mb-3'>
                 <div className='card'>
@@ -55,15 +60,17 @@ function ProductDetails({data}) {
                         <p className='black-7'> Added On : {moment(data.createdAt).fromNow()}</p>
                         {showStock(data.quantity)}
                     </div>
-                    <button className='btn btn-outline-warning mt-2 mb-2 ml-2'>
+                    <button onClick={()=>confirmedAddToCart(data)}  className='btn btn-outline-warning mt-2 mb-2 ml-2'>
                         Add to Cart
                     </button>
                 </div>
             </div>
-            <div className='col'>
+            <div className='col-4'>
+                {/* className='col-12' */}
                 <h3>Related Products</h3>
                 {relatedProducts.map((rP, ind)=>{
                     return <Card key={ind} product={rP} className="col-12" />
+                    //  className="col-12"
                 })}
             </div>
         </div>

@@ -68,3 +68,13 @@ export const removeItem = (id) => {
     }
     return cart
 }
+
+
+
+export const emptyCart = () => {
+    if (process.browser) {
+        if (localStorage.getItem("cart")) {
+            localStorage.removeItem("cart")
+        }
+    }
+}
