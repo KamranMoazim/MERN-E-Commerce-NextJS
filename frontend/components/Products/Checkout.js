@@ -6,6 +6,7 @@ import {isAuth, getCookie} from "../../Actions/authActions"
 import { getBrainTreeClientToken, getProcessPayment } from '../../Actions/productActions'
 import { emptyCart } from '../../Actions/cartActions'
 import Router from 'next/router'
+import { createOrder } from '../../Actions/orderActions'
 
 
 function Checkout({products}) {
@@ -18,7 +19,6 @@ function Checkout({products}) {
         instance:{},
         address:""
     })
-    // const [cartAction, setCartAction] = useState(false)
 
     const userId = isAuth() && isAuth()._id
     const token = isAuth() && getCookie("token")
@@ -29,6 +29,7 @@ function Checkout({products}) {
         },0)
     }
     let total = getTotal();
+    let delieveryAddress = data.address;
 
     const getToken = () => {
         getBrainTreeClientToken(userId, token)
@@ -77,14 +78,24 @@ function Checkout({products}) {
 
             getProcessPayment(userId, token, paymentData)
                 .then((nRes)=>{
-                    console.log(nRes)
-                    setData({...data, success:nRes.success, loading:false})
-                    // setCartAction(true)
-                    // setData({...data, loading:false})
+                    // console.log(nRes)
+                    const orderData = {
+                        products:products,
+                        transaction_id:nRes.transaction.id,
+                        amount:nRes.transaction.amount,
+                        address:delieveryAddress
+                    }
+                    createOrder(userId, token, orderData)
+                        .then((nnRes)=>{
+                            console.log(nnRes)
+                            setData({...data, success:nRes.success, loading:false})
+                        })
+                        .catch((err)=>{
+                            setData({...data, error:err.message, loading:false})
+                        })
                 })
                 .catch((err)=>{
                     setData({...data, error:err.message, loading:false})
-                    // setData({...data, loading:false})  != null
                 })
         })
         .catch((err)=>{
@@ -98,9 +109,18 @@ function Checkout({products}) {
         return <div>
             {(data.clientToken) ? (
                 <div>
+                    <div className='form-group mb-3'>
+                        <label className='text-muted'>Delievery Address</label>
+                        <textarea 
+                        className='form-control' 
+                        row={4} value={data.address} 
+                        onChange={(e)=>setData({...data, address:e.target.value})}
+                        placeholder="Type Your Address Here!"
+                        >
+                        </textarea>
+                    </div>
                     <DropIn 
-                    // , paypal:{flow:"vault"}
-                        options={{authorization:data.clientToken}} 
+                        options={{authorization:data.clientToken}}  // , paypal:{flow:"vault"}
                         onInstance={instance=>data.instance=instance}
                     />
                     <button className='btn btn-success' onClick={onBuy}>Pay</button>

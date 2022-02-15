@@ -6,6 +6,26 @@ const {errorHandler} = require("../Utils/dbErrorHandler")
 
 
 
+exports.descreaseQuantity = (req, res, next) => {
+    // console.log(req.body)
+    let bulkOps = req.body.products.map((item)=>{
+        return {
+            updateOne: {
+                filter: {_id:item._id},
+                update: {$inc: {quantity:-item.count, sold:+item.count}}
+            }
+        }
+    })
+    Product.bulkWrite(bulkOps, {}, (err, products)=>{
+        if (err) {
+            return res.status(400).json({
+                error:"Could not update Product!"
+            })
+        }
+        next()
+    })
+}
+
 exports.create = (req, res) => {
     // validating
     const errors = validationResult(req);
