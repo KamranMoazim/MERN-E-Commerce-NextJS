@@ -25,6 +25,11 @@ function AdminDashboard() {
                         Show Orders
                     </a>
                 </li>
+                <li className='list-group-item'>
+                    <a className="nav-link" href="/product/manage">
+                        Manage Products
+                    </a>
+                </li>
             </ul>
         </div>
         )
