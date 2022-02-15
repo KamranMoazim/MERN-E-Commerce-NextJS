@@ -60,8 +60,8 @@ function Checkout({products}) {
     }
 
     useEffect(()=>{
-        // emptyCart()
-        // Router.push("/cart")
+        emptyCart()
+        Router.push("/cart")
         total = getTotal();
     },[products])
 
@@ -87,7 +87,7 @@ function Checkout({products}) {
                     }
                     createOrder(userId, token, orderData)
                         .then((nnRes)=>{
-                            console.log(nnRes)
+                            // console.log(nnRes)
                             setData({...data, success:nRes.success, loading:false})
                         })
                         .catch((err)=>{
