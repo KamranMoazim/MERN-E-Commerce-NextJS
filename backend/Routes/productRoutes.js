@@ -12,15 +12,15 @@ const { productValidator } = require("../validators/productValidator");
 
 
 
+router.get("/products", list);
 router.post("/product/create/:userId", productValidator, requireSignin, isAdmin, create);
 router.put("/product/:productById/:userId", productValidator, requireSignin, isAdmin, update);
-router.get("/products", list);
+router.delete("/product/:productById/:userId", requireSignin, isAdmin, remove);
 router.get("/products/search", listSearch);
 router.post("/products/related/:productById", listRelated);
 router.get("/products/categories", listCategories);
 router.post("/products/by/search", listBySearch);
 router.get("/product/:productById", read);
-router.delete("/product/:productById/:userId", requireSignin, isAdmin, remove);
 
 
 router.param("userId", findById)
